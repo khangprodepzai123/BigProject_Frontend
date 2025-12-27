@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Đăng Ký Khám Bệnh"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="#1e88e5"
+            android:textAlignment="center"
+            android:layout_marginBottom="24dp" />
+
+        <!-- Họ tên -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Họ và tên *"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="4dp" />
+        <EditText
+            android:id="@+id/etHoTen"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="Nhập họ và tên"
+            android:padding="12dp"
+            android:background="@drawable/edit_text_background"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Số điện thoại -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Số điện thoại *"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="4dp" />
+        <EditText
+            android:id="@+id/etSdt"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="Nhập số điện thoại"
+            android:inputType="phone"
+            android:padding="12dp"
+            android:background="@drawable/edit_text_background"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Ngày sinh -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ngày sinh"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="4dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="16dp">
+            <TextView
+                android:id="@+id/tvNgaySinh"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:padding="12dp"
+                android:background="@drawable/edit_text_background"
+                android:text="Chưa chọn"
+                android:textColor="#666" />
+            <Button
+                android:id="@+id/btnChonNgaySinh"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:text="Chọn"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/button_background"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+        <!-- Giới tính -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Giới tính"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="4dp" />
+        <Spinner
+            android:id="@+id/spGioiTinh"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@drawable/edit_text_background"
+            android:padding="12dp"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Đối tượng -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Đối tượng"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="4dp" />
+        <Spinner
+            android:id="@+id/spDoiTuong"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@drawable/edit_text_background"
+            android:padding="12dp"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Địa chỉ -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Địa chỉ"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="4dp" />
+        <EditText
+            android:id="@+id/etDiaChi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nhập địa chỉ"
+            android:minLines="2"
+            android:padding="12dp"
+            android:background="@drawable/edit_text_background"
+            android:layout_marginBottom="16dp" />
+
+        <!-- BHYT -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Số bảo hiểm y tế"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="4dp" />
+        <EditText
+            android:id="@+id/etBhyt"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="Nhập số BHYT (nếu có)"
+            android:padding="12dp"
+            android:background="@drawable/edit_text_background"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Lý do khám -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Lý do khám"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="4dp" />
+        <EditText
+            android:id="@+id/etLyDoKham"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nhập lý do khám"
+            android:minLines="2"
+            android:padding="12dp"
+            android:background="@drawable/edit_text_background"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Thời gian hẹn khám -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Thời gian hẹn khám *"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="4dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="24dp">
+            <TextView
+                android:id="@+id/tvThoiGianHenKham"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:padding="12dp"
+                android:background="@drawable/edit_text_background"
+                android:text="Chưa chọn"
+                android:textColor="#666" />
+            <Button
+                android:id="@+id/btnChonThoiGianHen"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:text="Chọn"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/button_background"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+        <!-- Nút đăng ký -->
+        <Button
+            android:id="@+id/btnDangKy"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="Đăng ký khám"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:background="@drawable/button_background"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+</ScrollView>
+

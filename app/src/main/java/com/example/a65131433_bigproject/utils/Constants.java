@@ -2,7 +2,7 @@ package com.example.a65131433_bigproject.utils;
 
 public class Constants {
     // Base URL của Web API
-    public static final String BASE_URL = "http://10.0.2.2:7128/";  // ← Thay IP của bạn
+    public static final String BASE_URL = "http://10.0.2.2:5237/";  // ← Thay IP của bạn
 
     // Endpoints
     public static final String API_SIGNUP = "api/auth/signup";

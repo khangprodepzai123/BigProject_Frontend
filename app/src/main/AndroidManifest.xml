@@ -38,7 +38,20 @@
             android:name=".ui.WelcomeActivity"
             android:exported="false" />
 
+        <!-- Register Kham Activity -->
+        <activity
+            android:name=".ui.RegisterKhamActivity"
+            android:exported="false" />
 
+        <!-- Benh An Activity -->
+        <activity
+            android:name=".ui.BenhAnActivity"
+            android:exported="false" />
+
+        <!-- Hoa Don Activity -->
+        <activity
+            android:name=".ui.HoaDonActivity"
+            android:exported="false" />
 
     </application>
 

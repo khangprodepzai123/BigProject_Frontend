@@ -52,6 +52,10 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel:2.6.1")
     implementation("androidx.lifecycle:lifecycle-livedata:2.6.1")
 
+    // ===== RECYCLERVIEW =====
+    implementation("androidx.recyclerview:recyclerview:1.3.2")
+    implementation("androidx.cardview:cardview:1.0.0")
+
     // ===== TESTING =====
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)

@@ -33,4 +33,16 @@ public class RetrofitClient {
     public static AuthApi getAuthApi() {
         return getRetrofitInstance().create(AuthApi.class);
     }
+
+    public static BenhNhanApi getBenhNhanApi() {
+        return getRetrofitInstance().create(BenhNhanApi.class);
+    }
+
+    public static BenhAnApi getBenhAnApi() {
+        return getRetrofitInstance().create(BenhAnApi.class);
+    }
+
+    public static HoaDonApi getHoaDonApi() {
+        return getRetrofitInstance().create(HoaDonApi.class);
+    }
 }

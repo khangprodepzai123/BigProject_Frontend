@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="gioi_tinh_array">
+        <item>-- Chọn giới tính --</item>
+        <item>Nam</item>
+        <item>Nữ</item>
+    </string-array>
+
+    <string-array name="doi_tuong_array">
+        <item>-- Chọn đối tượng --</item>
+        <item>Viện phí</item>
+        <item>Bảo hiểm y tế</item>
+        <item>Miễn giảm</item>
+    </string-array>
+</resources>
+
