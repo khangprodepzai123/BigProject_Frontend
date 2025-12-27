@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Base Application Theme -->
+    <style name="Theme.65131433_BigProject" parent="Theme.MaterialComponents.Light.DarkActionBar">
+        <!-- Primary color -->
+        <item name="colorPrimary">@color/primary_color</item>
+        <!-- Secondary color -->
+        <item name="colorSecondary">@color/secondary_color</item>
+        <!-- Tertiary color -->
+        <item name="colorTertiary">@color/tertiary_color</item>
+    </style>
+</resources>

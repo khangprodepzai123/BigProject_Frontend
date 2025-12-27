@@ -1,0 +1,20 @@
+// ===== models/LoginRequest.java =====
+package com.example.a65131433_bigproject.models;
+
+public class LoginRequest {
+    private String tenDangNhap;
+    private String matKhau;
+
+    public LoginRequest(String tenDangNhap, String matKhau) {
+        this.tenDangNhap = tenDangNhap;
+        this.matKhau = matKhau;
+    }
+
+    public String getTenDangNhap() {
+        return tenDangNhap;
+    }
+
+    public String getMatKhau() {
+        return matKhau;
+    }
+}

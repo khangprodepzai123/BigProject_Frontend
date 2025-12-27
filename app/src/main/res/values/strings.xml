@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Phòng Khám Online</string>
+    <string name="login">Đăng Nhập</string>
+    <string name="signup">Đăng Ký</string>
+    <string name="logout">Đăng Xuất</string>
+    <string name="welcome">Xin chào</string>
+    <string name="username">Tên đăng nhập</string>
+    <string name="password">Mật khẩu</string>
+    <string name="password_confirm">Xác nhận mật khẩu</string>
+    <string name="error_empty_fields">Vui lòng điền đầy đủ thông tin</string>
+    <string name="error_password_mismatch">Mật khẩu không trùng khớp</string>
+    <string name="error_network">Lỗi kết nối mạng</string>
+    <string name="success_login">Đăng nhập thành công!</string>
+    <string name="success_signup">Đăng ký thành công!</string>
+    <string name="success_logout">Đã đăng xuất</string>
+    <string name="already_have_account">Đã có tài khoản?</string>
+    <string name="no_account">Chưa có tài khoản?</string>
+</resources>

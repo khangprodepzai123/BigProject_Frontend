@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="@color/white">
+
+    <TextView
+        android:id="@+id/tvWelcome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Xin chào!"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:textColor="#1e88e5"
+        android:layout_marginBottom="32dp"
+        android:textAlignment="center" />
+
+    <!-- Card thông tin -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/card_background"
+        android:padding="16dp"
+        android:layout_marginBottom="16dp">
+
+        <TextView
+            android:id="@+id/tvMaTk"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Mã tài khoản: TK001"
+            android:textSize="14sp"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/tvUsername"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tên đăng nhập: user123"
+            android:textSize="14sp"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/tvMaBn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Mã BN: Chưa liên kết"
+            android:textSize="14sp"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/tvHoTen"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Họ tên: Chưa cập nhật"
+            android:textSize="14sp"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/tvDiemTichLuy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Điểm tích lũy: 0"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#e0e0e0"
+        android:layout_marginBottom="24dp" />
+
+    <Button
+        android:id="@+id/btnLogout"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="Đăng Xuất"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:background="@drawable/button_background_logout"
+        android:textColor="@color/white" />
+
+</LinearLayout>
