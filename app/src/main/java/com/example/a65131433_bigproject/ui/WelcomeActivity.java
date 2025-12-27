@@ -15,7 +15,7 @@ import com.example.a65131433_bigproject.viewmodel.AuthViewModel;
 
 public class WelcomeActivity extends AppCompatActivity {
     private TextView tvWelcome, tvUsername, tvMaBn, tvHoTen, tvDiemTichLuy, tvMaTk;
-    private Button btnLogout, btnDangKyKham, btnBenhAn, btnHoaDon;
+    private Button btnLogout, btnDangKyKham, btnBenhAn, btnHoaDon, btnToaThuocHienTai;
     private AuthViewModel viewModel;
     private SharedPrefManager prefManager;
 
@@ -41,6 +41,7 @@ public class WelcomeActivity extends AppCompatActivity {
         btnDangKyKham = findViewById(R.id.btnDangKyKham);
         btnBenhAn = findViewById(R.id.btnBenhAn);
         btnHoaDon = findViewById(R.id.btnHoaDon);
+        btnToaThuocHienTai = findViewById(R.id.btnToaThuocHienTai);
 
         prefManager = SharedPrefManager.getInstance(this);
     }
@@ -84,6 +85,15 @@ public class WelcomeActivity extends AppCompatActivity {
                 Toast.makeText(this, "Tài khoản chưa liên kết với bệnh nhân", Toast.LENGTH_SHORT).show();
             } else {
                 startActivity(new Intent(WelcomeActivity.this, HoaDonActivity.class));
+            }
+        });
+
+        btnToaThuocHienTai.setOnClickListener(v -> {
+            String maBn = prefManager.getMaBn();
+            if (maBn == null || maBn.isEmpty()) {
+                Toast.makeText(this, "Tài khoản chưa liên kết với bệnh nhân", Toast.LENGTH_SHORT).show();
+            } else {
+                startActivity(new Intent(WelcomeActivity.this, ToaThuocHienTaiActivity.class));
             }
         });
 

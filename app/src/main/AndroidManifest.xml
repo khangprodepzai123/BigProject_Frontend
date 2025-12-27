@@ -53,6 +53,11 @@
             android:name=".ui.HoaDonActivity"
             android:exported="false" />
 
+        <!-- Toa Thuoc Hien Tai Activity -->
+        <activity
+            android:name=".ui.ToaThuocHienTaiActivity"
+            android:exported="false" />
+
     </application>
 
 </manifest>
