@@ -1,0 +1,60 @@
+@startuml Activity Diagram - Đăng nhập và Đăng ký
+
+title Activity Diagram - Quy trình Đăng nhập và Đăng ký tài khoản
+
+start
+
+:Người dùng mở ứng dụng Android;
+:Hiển thị màn hình đăng nhập;
+
+if (Đã có tài khoản?) then (Có)
+  :Nhập tên đăng nhập;
+  :Nhập mật khẩu;
+  :Nhấn nút "Đăng nhập";
+  
+  :Gửi request đến API /api/Auth/login;
+  
+  if (Tên đăng nhập và mật khẩu hợp lệ?) then (Có)
+    :Tạo JWT token;
+    :Lưu token vào SharedPreferences;
+    :Lấy thông tin tài khoản;
+    :Lưu thông tin (MaTk, MaBn, HoTen, DiemTichLuy);
+    
+    :Chuyển đến WelcomeActivity;
+    :Hiển thị màn hình chính;
+    stop
+  else (Không)
+    :Hiển thị lỗi "Tên đăng nhập hoặc mật khẩu không đúng";
+    :Quay lại màn hình đăng nhập;
+    stop
+  endif
+  
+else (Chưa có)
+  :Nhấn "Đăng ký tài khoản";
+  :Chuyển đến SignupActivity;
+  
+  :Nhập tên đăng nhập;
+  :Nhập mật khẩu;
+  :Nhập lại mật khẩu;
+  :Nhấn nút "Đăng ký";
+  
+  if (Tên đăng nhập đã tồn tại?) then (Có)
+    :Hiển thị lỗi "Tên đăng nhập đã tồn tại";
+    :Quay lại form đăng ký;
+    stop
+  else (Không)
+    :Tạo mã tài khoản mới (TK001, TK002...);
+    :Mã hóa mật khẩu;
+    :Lưu vào bảng TaiKhoanBenhNhan;
+    :Tạo JWT token;
+    :Lưu token vào SharedPreferences;
+    :Lưu thông tin tài khoản;
+    
+    :Chuyển đến WelcomeActivity;
+    :Hiển thị màn hình chính;
+    stop
+  endif
+endif
+
+@enduml
+

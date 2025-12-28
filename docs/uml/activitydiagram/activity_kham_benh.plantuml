@@ -1,0 +1,79 @@
+@startuml Activity Diagram - Quy trình Khám bệnh
+
+title Activity Diagram - Quy trình Khám bệnh (Web - Nhân viên/Bác sĩ)
+
+start
+
+:Nhân viên đăng nhập vào hệ thống web;
+:Vào trang "Danh sách bệnh nhân";
+
+if (Bệnh nhân mới?) then (Có)
+  :Nhấn "Khám mới";
+  :Tạo phiếu khám mới:
+  - Sinh mã KB001, KB002...
+  - Trạng thái: "Đang khám"
+  - Bác sĩ: Bác sĩ mặc định
+  - Chuẩn đoán: Chuẩn đoán mặc định;
+else (Bệnh nhân cũ)
+  :Tìm bệnh nhân trong danh sách;
+  
+  if (Bệnh nhân có phiếu khám chưa thanh toán?) then (Có)
+    :Mở phiếu khám hiện có;
+  else (Không)
+    :Nhấn "Khám lại";
+    :Xóa phiếu khám cũ và dữ liệu liên quan:
+    - Xóa ToaThuoc
+    - Xóa HoaDon
+    - Xóa ChiTietHoaDon;
+    :Tạo phiếu khám mới;
+  endif
+endif
+
+:Chuyển đến trang "Khám bệnh";
+:Hiển thị thông tin bệnh nhân;
+:Hiển thị form khám bệnh;
+
+:Bác sĩ/Nhân viên nhập thông tin khám:
+- Lý do khám
+- Quá trình bệnh lý
+- Tiền sử bệnh nhân
+- Tiền sử gia đình
+- Khám bộ phận
+- Chọn bác sĩ
+- Chọn chuẩn đoán
+- Loại khám
+- Xử trí khám;
+
+:Kê toa thuốc:
+- Chọn thuốc từ danh sách
+- Nhập số lượng
+- Nhập liều dùng
+- Nhập cách dùng;
+
+if (Có thuốc trong toa?) then (Có)
+  :Lưu danh sách thuốc vào ToaThuoc;
+endif
+
+:Nhấn nút "Lưu thông tin khám";
+:Cập nhật phiếu khám:
+- Cập nhật các trường thông tin
+- Trạng thái: "Đã khám";
+
+:Lưu vào database;
+
+if (Cần lưu bệnh án?) then (Có)
+  :Nhấn "Lưu bệnh án";
+  :Tạo bản ghi BenhAn:
+  - Sinh mã BA001, BA002...
+  - Copy thông tin từ KhamBenh
+  - Copy toa thuốc vào BenhAnToaThuoc;
+  :Lưu vào database;
+endif
+
+:Hiển thị thông báo "Khám bệnh thành công";
+:Quay lại danh sách bệnh nhân;
+
+stop
+
+@enduml
+

@@ -1,0 +1,77 @@
+@startuml Activity Diagram - Quy trình Thanh toán
+
+title Activity Diagram - Quy trình Thanh toán hóa đơn
+
+start
+
+:Nhân viên vào trang "Danh sách bệnh nhân";
+:Chọn bệnh nhân đã khám;
+:Nhấn nút "Thanh toán";
+:Chuyển đến trang "Thanh toán";
+
+:Load thông tin:
+- Thông tin bệnh nhân
+- Phiếu khám (KhamBenh)
+- Danh sách thuốc từ ToaThuoc
+- Tài khoản (nếu có liên kết);
+
+:Tính toán chi phí:
+- Tiền khám: 100,000 VNĐ
+- Tổng tiền thuốc: Sum(SoLuong * GiaBan);
+
+:Tổng cộng = Tiền khám + Tổng tiền thuốc;
+
+if (Bệnh nhân có BHYT?) then (Có)
+  :Áp dụng giảm giá BHYT:
+  - Giảm 80%
+  - Tổng cộng = Tổng cộng * 20%;
+endif
+
+if (Tài khoản có điểm tích lũy >= 1?) then (Có)
+  :Áp dụng giảm giá điểm tích lũy:
+  - Giảm 10%
+  - GiamGiaDiem = Tổng cộng * 10%
+  - Tổng cộng = Tổng cộng - GiamGiaDiem;
+endif
+
+:Thành tiền = Tổng cộng sau giảm giá;
+:Hiển thị chi tiết hóa đơn cho người dùng;
+
+:Nhấn nút "Xác nhận thanh toán";
+
+:Tạo hóa đơn (HoaDon):
+- Sinh mã HD001, HD002...
+- MaKham
+- NgayLap: Ngày hiện tại
+- TongTien: Thành tiền
+- TrangThai: "Đã thanh toán";
+
+:Tạo ChiTietHoaDon cho từng thuốc:
+- MaHoaDon
+- MaThuoc
+- SoLuong
+- DonGia
+- ThanhTien;
+
+:Cập nhật số lượng thuốc trong kho:
+- Giảm SoLuong trong bảng Thuoc;
+
+:Cập nhật trạng thái phiếu khám:
+- KhamBenh.TrangThai = "Đã thanh toán";
+
+if (Tài khoản có liên kết?) then (Có)
+  :Cập nhật điểm tích lũy:
+  - DiemTichLuy = DiemTichLuy + 1;
+  :Cập nhật mức ưu đãi (nếu cần);
+endif
+
+:Lưu tất cả thay đổi vào database;
+
+:Hiển thị thông báo "Thanh toán thành công";
+:Hiển thị mã hóa đơn;
+:Quay lại danh sách bệnh nhân;
+
+stop
+
+@enduml
+

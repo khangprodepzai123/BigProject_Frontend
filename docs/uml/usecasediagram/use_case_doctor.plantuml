@@ -1,0 +1,66 @@
+@startuml Use Case Diagram - Bác sĩ
+
+title Use Case Diagram - Bác sĩ (Doctor)
+
+actor "Bác sĩ\n(Doctor)" as Doctor #FFF3E0
+
+' ===== PACKAGE: Authentication =====
+package "Xác thực" {
+    usecase "Đăng nhập" as UC_Login
+    usecase "Đăng xuất" as UC_Logout
+}
+
+' ===== PACKAGE: Medical Examination =====
+package "Khám bệnh" {
+    usecase "Xem danh sách bệnh nhân cần khám" as UC_ViewDanhSachKham
+    usecase "Khám bệnh" as UC_KhamBenh
+    usecase "Chẩn đoán bệnh" as UC_ChuanDoan
+    usecase "Kê toa thuốc" as UC_KeToaThuoc
+    usecase "Lưu bệnh án" as UC_SaveBenhAn
+}
+
+' ===== PACKAGE: Medical Records =====
+package "Bệnh án" {
+    usecase "Xem danh sách bệnh án" as UC_ViewBenhAn
+    usecase "Xem chi tiết bệnh án" as UC_ViewBenhAnDetail
+    usecase "Tìm kiếm bệnh án" as UC_SearchBenhAn
+}
+
+' ===== PACKAGE: Doctor Information =====
+package "Thông tin cá nhân" {
+    usecase "Xem thông tin bác sĩ" as UC_ViewBacSiDetail
+    usecase "Cập nhật thông tin bác sĩ" as UC_UpdateBacSiInfo
+}
+
+' ===== RELATIONSHIPS =====
+Doctor --> UC_Login
+Doctor --> UC_Logout
+Doctor --> UC_ViewDanhSachKham
+Doctor --> UC_KhamBenh
+Doctor --> UC_ChuanDoan
+Doctor --> UC_KeToaThuoc
+Doctor --> UC_SaveBenhAn
+Doctor --> UC_ViewBenhAn
+Doctor --> UC_ViewBenhAnDetail
+Doctor --> UC_SearchBenhAn
+Doctor --> UC_ViewBacSiDetail
+Doctor --> UC_UpdateBacSiInfo
+
+' ===== EXTENDS/INCLUDES =====
+UC_ViewBenhAnDetail ..> UC_ViewBenhAn : <<extend>>
+UC_ChuanDoan ..> UC_KhamBenh : <<include>>
+UC_KeToaThuoc ..> UC_KhamBenh : <<include>>
+UC_SaveBenhAn ..> UC_KhamBenh : <<include>>
+
+note right of Doctor
+  **Bác sĩ** có thể:
+  - Đăng nhập vào hệ thống web
+  - Khám bệnh và chẩn đoán
+  - Kê toa thuốc cho bệnh nhân
+  - Lưu bệnh án sau khi khám
+  - Xem và tìm kiếm bệnh án
+  - Quản lý thông tin cá nhân
+end note
+
+@enduml
+

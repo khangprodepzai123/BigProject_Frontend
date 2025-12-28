@@ -1,0 +1,134 @@
+@startuml Data Flow Diagram - Mức 0
+
+title DFD Level 0 - Overview - Hệ Thống Phòng Khám Online
+
+!define EXTERNAL_COLOR #FFE0B2
+!define PROCESS_COLOR #C8E6C9
+!define STORE_COLOR #FFF9C4
+
+skinparam component {
+    BackgroundColor<<external>> EXTERNAL_COLOR
+    BackgroundColor<<process>> PROCESS_COLOR
+    BackgroundColor<<store>> STORE_COLOR
+}
+
+' ===== EXTERNAL ENTITIES =====
+component "Bệnh nhân\n(Patient)" as Patient <<external>>
+component "Bác sĩ\n(Doctor)" as Doctor <<external>>
+component "Nhân viên\n(Staff)" as Staff <<external>>
+
+' ===== PROCESSES =====
+component "1.0\nQuản lý\nXác thực" as P1 <<process>>
+component "2.0\nQuản lý\nBệnh nhân" as P2 <<process>>
+component "3.0\nKhám bệnh\nvà Kê toa" as P3 <<process>>
+component "4.0\nThanh toán\nHóa đơn" as P4 <<process>>
+component "5.0\nQuản lý\nBệnh án" as P5 <<process>>
+component "6.0\nQuản lý\nĐiểm tích lũy" as P6 <<process>>
+
+' ===== DATA STORES =====
+database "D1\nTài khoản" as D1 <<store>>
+database "D2\nBệnh nhân" as D2 <<store>>
+database "D3\nPhiếu khám" as D3 <<store>>
+database "D4\nToa thuốc" as D4 <<store>>
+database "D5\nBệnh án" as D5 <<store>>
+database "D6\nHóa đơn" as D6 <<store>>
+database "D7\nThuốc" as D7 <<store>>
+database "D8\nBác sĩ" as D8 <<store>>
+database "D9\nMức ưu đãi" as D9 <<store>>
+
+' ===== DATA FLOWS =====
+
+' Bệnh nhân -> Processes
+Patient --> P1 : Thông tin đăng nhập/đăng ký
+Patient --> P2 : Thông tin đăng ký khám
+Patient --> P5 : Yêu cầu xem bệnh án
+Patient --> P6 : Yêu cầu xem điểm tích lũy
+
+' Processes -> Bệnh nhân
+P1 --> Patient : Token, Thông tin tài khoản
+P2 --> Patient : Thông báo đăng ký thành công
+P5 --> Patient : Danh sách bệnh án, Toa thuốc
+P6 --> Patient : Thông tin điểm tích lũy
+
+' Bác sĩ -> Processes
+Doctor --> P1 : Thông tin đăng nhập
+Doctor --> P3 : Thông tin khám bệnh
+Doctor --> P3 : Thông tin toa thuốc
+Doctor --> P5 : Yêu cầu lưu bệnh án
+
+' Processes -> Bác sĩ
+P1 --> Doctor : Token
+P3 --> Doctor : Danh sách bệnh nhân cần khám
+P5 --> Doctor : Danh sách bệnh án
+
+' Nhân viên -> Processes
+Staff --> P1 : Thông tin đăng nhập
+Staff --> P2 : Yêu cầu quản lý bệnh nhân
+Staff --> P3 : Yêu cầu tạo phiếu khám
+Staff --> P4 : Thông tin thanh toán
+Staff --> P5 : Yêu cầu quản lý bệnh án
+
+' Processes -> Nhân viên
+P1 --> Staff : Token
+P2 --> Staff : Danh sách bệnh nhân
+P4 --> Staff : Chi tiết hóa đơn
+P5 --> Staff : Danh sách bệnh án
+
+' Processes <-> Data Stores
+P1 <--> D1 : Đọc/Ghi thông tin tài khoản
+P2 <--> D2 : Đọc/Ghi thông tin bệnh nhân
+P2 <--> D3 : Tạo phiếu khám
+P2 <--> D1 : Liên kết tài khoản với bệnh nhân
+P3 <--> D3 : Đọc/Cập nhật phiếu khám
+P3 <--> D4 : Ghi toa thuốc
+P3 <--> D7 : Đọc danh sách thuốc
+P3 <--> D8 : Đọc danh sách bác sĩ
+P4 <--> D3 : Đọc phiếu khám
+P4 <--> D4 : Đọc toa thuốc
+P4 <--> D6 : Ghi hóa đơn
+P4 <--> D7 : Cập nhật số lượng thuốc
+P4 <--> D1 : Cập nhật điểm tích lũy
+P5 <--> D3 : Đọc phiếu khám
+P5 <--> D4 : Đọc toa thuốc
+P5 <--> D5 : Đọc/Ghi bệnh án
+P6 <--> D1 : Đọc điểm tích lũy
+P6 <--> D9 : Đọc mức ưu đãi
+
+' Inter-process flows
+P2 --> P3 : Thông tin phiếu khám mới
+P3 --> P4 : Thông tin phiếu khám đã khám
+P3 --> P5 : Thông tin để lưu bệnh án
+P4 --> P6 : Thông tin thanh toán thành công
+
+note right of P1
+  **1.0 Quản lý Xác thực**
+  - Đăng nhập
+  - Đăng ký tài khoản
+  - Tạo và validate JWT token
+end note
+
+note right of P2
+  **2.0 Quản lý Bệnh nhân**
+  - Đăng ký khám bệnh
+  - Tạo bệnh nhân mới
+  - Tạo phiếu khám
+  - Liên kết tài khoản
+end note
+
+note right of P3
+  **3.0 Khám bệnh và Kê toa**
+  - Khám bệnh
+  - Kê toa thuốc
+  - Cập nhật trạng thái
+end note
+
+note right of P4
+  **4.0 Thanh toán Hóa đơn**
+  - Tính toán chi phí
+  - Áp dụng giảm giá
+  - Tạo hóa đơn
+  - Cập nhật điểm tích lũy
+end note
+
+@enduml
+

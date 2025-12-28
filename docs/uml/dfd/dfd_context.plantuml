@@ -1,0 +1,87 @@
+@startuml Data Flow Diagram - Mức Ngữ cảnh
+
+title DFD Level 0 - Context Diagram - Hệ Thống Phòng Khám Online
+
+!define EXTERNAL_COLOR #FFE0B2
+!define SYSTEM_COLOR #BBDEFB
+
+skinparam component {
+    BackgroundColor<<external>> EXTERNAL_COLOR
+    BackgroundColor<<system>> SYSTEM_COLOR
+}
+
+' ===== EXTERNAL ENTITIES =====
+component "Bệnh nhân\n(Patient)" as Patient <<external>>
+component "Bác sĩ\n(Doctor)" as Doctor <<external>>
+component "Nhân viên\n(Staff)" as Staff <<external>>
+
+' ===== SYSTEM =====
+component "Hệ thống\nPhòng Khám Online" as System <<system>>
+
+' ===== DATA FLOWS =====
+
+' Bệnh nhân -> Hệ thống
+Patient --> System : Thông tin đăng ký tài khoản
+Patient --> System : Thông tin đăng nhập
+Patient --> System : Thông tin đăng ký khám
+Patient --> System : Yêu cầu xem bệnh án
+Patient --> System : Yêu cầu xem toa thuốc
+Patient --> System : Yêu cầu xem hóa đơn
+Patient --> System : Yêu cầu xem điểm tích lũy
+Patient --> System : Yêu cầu xem danh sách bác sĩ
+
+' Hệ thống -> Bệnh nhân
+System --> Patient : Token xác thực
+System --> Patient : Thông tin tài khoản
+System --> Patient : Thông báo đăng ký khám thành công
+System --> Patient : Danh sách bệnh án
+System --> Patient : Toa thuốc hiện tại
+System --> Patient : Danh sách hóa đơn
+System --> Patient : Thông tin điểm tích lũy
+System --> Patient : Danh sách bác sĩ
+
+' Bác sĩ -> Hệ thống
+Doctor --> System : Thông tin đăng nhập
+Doctor --> System : Thông tin khám bệnh
+Doctor --> System : Thông tin toa thuốc
+Doctor --> System : Yêu cầu lưu bệnh án
+Doctor --> System : Yêu cầu xem bệnh án
+
+' Hệ thống -> Bác sĩ
+System --> Doctor : Token xác thực
+System --> Doctor : Danh sách bệnh nhân cần khám
+System --> Doctor : Thông tin bệnh nhân
+System --> Doctor : Danh sách bệnh án
+System --> Doctor : Thông báo lưu thành công
+
+' Nhân viên -> Hệ thống
+Staff --> System : Thông tin đăng nhập
+Staff --> System : Yêu cầu tạo phiếu khám
+Staff --> System : Yêu cầu khám lại
+Staff --> System : Thông tin thanh toán
+Staff --> System : Yêu cầu quản lý bệnh nhân
+Staff --> System : Yêu cầu quản lý tài khoản
+Staff --> System : Yêu cầu quản lý bác sĩ
+
+' Hệ thống -> Nhân viên
+System --> Staff : Token xác thực
+System --> Staff : Danh sách bệnh nhân
+System --> Staff : Thông tin bệnh nhân
+System --> Staff : Chi tiết hóa đơn
+System --> Staff : Danh sách tài khoản
+System --> Staff : Danh sách bác sĩ
+System --> Staff : Thông báo thanh toán thành công
+
+note right of System
+  **Hệ thống Phòng Khám Online**
+  Xử lý toàn bộ quy trình:
+  - Quản lý tài khoản
+  - Đăng ký khám bệnh
+  - Khám bệnh và kê toa
+  - Thanh toán
+  - Quản lý bệnh án
+  - Điểm tích lũy
+end note
+
+@enduml
+

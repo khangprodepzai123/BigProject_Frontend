@@ -1,0 +1,107 @@
+@startuml Use Case Diagram - Nhân viên
+
+title Use Case Diagram - Nhân viên (Staff)
+
+actor "Nhân viên\n(Staff)" as Staff #F3E5F5
+
+' ===== PACKAGE: Authentication =====
+package "Xác thực" {
+    usecase "Đăng nhập" as UC_Login
+    usecase "Đăng xuất" as UC_Logout
+}
+
+' ===== PACKAGE: Patient Management =====
+package "Quản lý bệnh nhân" {
+    usecase "Xem danh sách bệnh nhân" as UC_ViewDanhSachBenhNhan
+    usecase "Tìm kiếm bệnh nhân" as UC_SearchBenhNhan
+    usecase "Xem thông tin bệnh nhân" as UC_ViewBenhNhanDetail
+    usecase "Tạo phiếu khám mới" as UC_TaoPhieuKham
+    usecase "Khám lại cho bệnh nhân" as UC_KhamLai
+}
+
+' ===== PACKAGE: Medical Examination =====
+package "Khám bệnh" {
+    usecase "Khám bệnh" as UC_KhamBenh
+    usecase "Kê toa thuốc" as UC_KeToaThuoc
+    usecase "Lưu bệnh án" as UC_SaveBenhAn
+}
+
+' ===== PACKAGE: Invoice Management =====
+package "Quản lý hóa đơn" {
+    usecase "Xem danh sách hóa đơn" as UC_ViewDanhSachHoaDon
+    usecase "Xem chi tiết hóa đơn" as UC_ViewHoaDonDetail
+    usecase "Thanh toán hóa đơn" as UC_ThanhToan
+    usecase "Tìm kiếm hóa đơn" as UC_SearchHoaDon
+}
+
+' ===== PACKAGE: Medical Records =====
+package "Quản lý bệnh án" {
+    usecase "Xem tủ bệnh án" as UC_ViewTuBenhAn
+    usecase "Xem chi tiết bệnh án" as UC_ViewBenhAnDetail
+    usecase "Tìm kiếm bệnh án" as UC_SearchBenhAn
+}
+
+' ===== PACKAGE: Account Management =====
+package "Quản lý tài khoản" {
+    usecase "Xem danh sách tài khoản" as UC_ViewDanhSachTaiKhoan
+    usecase "Tìm kiếm tài khoản" as UC_SearchTaiKhoan
+    usecase "Xem thông tin tài khoản" as UC_ViewTaiKhoanDetail
+}
+
+' ===== PACKAGE: Doctor Management =====
+package "Quản lý bác sĩ" {
+    usecase "Xem danh sách bác sĩ" as UC_ViewDanhSachBacSi
+    usecase "Thêm bác sĩ mới" as UC_ThemBacSi
+    usecase "Cập nhật thông tin bác sĩ" as UC_UpdateBacSi
+    usecase "Xóa bác sĩ" as UC_XoaBacSi
+    usecase "Tìm kiếm bác sĩ" as UC_SearchBacSi
+}
+
+' ===== RELATIONSHIPS =====
+Staff --> UC_Login
+Staff --> UC_Logout
+Staff --> UC_ViewDanhSachBenhNhan
+Staff --> UC_SearchBenhNhan
+Staff --> UC_ViewBenhNhanDetail
+Staff --> UC_TaoPhieuKham
+Staff --> UC_KhamLai
+Staff --> UC_KhamBenh
+Staff --> UC_KeToaThuoc
+Staff --> UC_SaveBenhAn
+Staff --> UC_ViewDanhSachHoaDon
+Staff --> UC_ViewHoaDonDetail
+Staff --> UC_ThanhToan
+Staff --> UC_SearchHoaDon
+Staff --> UC_ViewTuBenhAn
+Staff --> UC_ViewBenhAnDetail
+Staff --> UC_SearchBenhAn
+Staff --> UC_ViewDanhSachTaiKhoan
+Staff --> UC_SearchTaiKhoan
+Staff --> UC_ViewTaiKhoanDetail
+Staff --> UC_ViewDanhSachBacSi
+Staff --> UC_ThemBacSi
+Staff --> UC_UpdateBacSi
+Staff --> UC_XoaBacSi
+Staff --> UC_SearchBacSi
+
+' ===== EXTENDS/INCLUDES =====
+UC_ViewBenhNhanDetail ..> UC_ViewDanhSachBenhNhan : <<extend>>
+UC_ViewHoaDonDetail ..> UC_ViewDanhSachHoaDon : <<extend>>
+UC_ViewBenhAnDetail ..> UC_ViewTuBenhAn : <<extend>>
+UC_ViewTaiKhoanDetail ..> UC_ViewDanhSachTaiKhoan : <<extend>>
+UC_KeToaThuoc ..> UC_KhamBenh : <<include>>
+UC_SaveBenhAn ..> UC_KhamBenh : <<include>>
+UC_ThanhToan ..> UC_KhamBenh : <<include>>
+
+note right of Staff
+  **Nhân viên** có thể:
+  - Quản lý toàn bộ hệ thống
+  - Quản lý bệnh nhân và tạo phiếu khám
+  - Hỗ trợ bác sĩ khám bệnh
+  - Thanh toán hóa đơn
+  - Quản lý bệnh án và tài khoản
+  - Quản lý thông tin bác sĩ
+end note
+
+@enduml
+

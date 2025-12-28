@@ -1,0 +1,69 @@
+@startuml Data Flow Diagram - Mức 1 - Process 6.0 Quản lý Điểm tích lũy
+
+title DFD Level 1 - Process 6.0: Quản lý Điểm tích lũy
+
+!define EXTERNAL_COLOR #FFE0B2
+!define PROCESS_COLOR #C8E6C9
+!define STORE_COLOR #FFF9C4
+
+skinparam component {
+    BackgroundColor<<external>> EXTERNAL_COLOR
+    BackgroundColor<<process>> PROCESS_COLOR
+    BackgroundColor<<store>> STORE_COLOR
+}
+
+' ===== EXTERNAL ENTITIES =====
+component "Bệnh nhân\n(Patient)" as Patient <<external>>
+
+' ===== SUB-PROCESSES =====
+component "6.1\nXác định\nMức ưu đãi" as P6_1 <<process>>
+component "6.2\nTính Giảm giá\nĐiểm" as P6_2 <<process>>
+
+' ===== DATA STORES =====
+database "D1\nTài khoản" as D1 <<store>>
+database "D9\nMức ưu đãi" as D9 <<store>>
+
+' ===== DATA FLOWS =====
+
+' External -> Processes
+Patient --> P6_1 : Yêu cầu xem điểm tích lũy\n(token)
+
+' Processes -> External
+P6_2 --> Patient : Thông tin điểm tích lũy\n(diemTichLuy, tenMuc, diemToiThieu,\nphanTramGiamGia, moTa,\nphanTramGiamGiaHienTai)
+
+' Processes <-> Data Stores
+P6_1 <--> D1 : Đọc điểm tích lũy\n(diemTichLuy)
+P6_1 <--> D9 : Đọc mức ưu đãi\n(maMuc, tenMuc, diemToiThieu,\nphanTramGiamGia, moTa)
+P6_1 --> P6_2 : Mức ưu đãi hiện tại\n(tenMuc, phanTramGiamGia)
+P6_2 <--> D1 : Đọc điểm tích lũy\n(để tính giảm giá)
+
+' Inter-process flows
+P6_2 --> P6_1 : Thông tin giảm giá
+
+note right of P6_1
+  **6.1 Xác định Mức ưu đãi**
+  - Lấy MaTk từ token
+  - Đọc điểm tích lũy từ D1
+  - Đọc danh sách mức ưu đãi từ D9
+  - Xác định mức ưu đãi:
+    * 1 điểm = Đồng
+    * 2 điểm = Bạc
+    * 3 điểm = Vàng
+    * >3 điểm = Kim cương
+  - Chuyển sang 6.2
+end note
+
+note right of P6_2
+  **6.2 Tính Giảm giá Điểm**
+  - Nhận mức ưu đãi từ 6.1
+  - Tính phần trăm giảm giá hiện tại:
+    * 10% nếu có điểm >= 1
+    * 0% nếu không có điểm
+  - Trả về thông tin đầy đủ:
+    * Điểm tích lũy
+    * Mức ưu đãi
+    * Phần trăm giảm giá
+end note
+
+@enduml
+

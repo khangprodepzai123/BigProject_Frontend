@@ -1,0 +1,101 @@
+@startuml Data Flow Diagram - Mức 1 - Process 4.0 Thanh toán Hóa đơn
+
+title DFD Level 1 - Process 4.0: Thanh toán Hóa đơn
+
+!define EXTERNAL_COLOR #FFE0B2
+!define PROCESS_COLOR #C8E6C9
+!define STORE_COLOR #FFF9C4
+
+skinparam component {
+    BackgroundColor<<external>> EXTERNAL_COLOR
+    BackgroundColor<<process>> PROCESS_COLOR
+    BackgroundColor<<store>> STORE_COLOR
+}
+
+' ===== EXTERNAL ENTITIES =====
+component "Nhân viên\n(Staff)" as Staff <<external>>
+
+' ===== SUB-PROCESSES =====
+component "4.1\nTính toán\nChi phí" as P4_1 <<process>>
+component "4.2\nÁp dụng\nGiảm giá" as P4_2 <<process>>
+component "4.3\nTạo Hóa đơn\nvà Chi tiết" as P4_3 <<process>>
+component "4.4\nCập nhật\nĐiểm tích lũy" as P4_4 <<process>>
+
+' ===== DATA STORES =====
+database "D1\nTài khoản" as D1 <<store>>
+database "D2\nBệnh nhân" as D2 <<store>>
+database "D3\nPhiếu khám" as D3 <<store>>
+database "D4\nToa thuốc" as D4 <<store>>
+database "D6\nHóa đơn" as D6 <<store>>
+database "D7\nThuốc" as D7 <<store>>
+
+' ===== DATA FLOWS =====
+
+' External -> Processes
+Staff --> P4_1 : Yêu cầu thanh toán\n(maBn)
+
+' Processes -> External
+P4_3 --> Staff : Chi tiết hóa đơn\n(maHoaDon, ngayLap, tongTien,\nthanhTien, chiTiet)
+
+' Processes <-> Data Stores
+P4_1 <--> D3 : Đọc phiếu khám\n(maKham, trangThai)
+P4_1 <--> D4 : Đọc toa thuốc\n(maKham, maThuoc, soLuong)
+P4_1 <--> D7 : Đọc giá thuốc\n(maThuoc, giaBan)
+P4_1 --> P4_2 : Tổng chi phí\n(tienKham + tongTienThuoc)
+P4_2 <--> D1 : Đọc điểm tích lũy\n(diemTichLuy)
+P4_2 <--> D2 : Đọc thông tin BHYT\n(bhyt)
+P4_2 --> P4_3 : Thành tiền sau giảm giá\n(tongCong - giamGiaBHYT - giamGiaDiem)
+P4_3 --> D6 : Ghi hóa đơn\n(maHoaDon, maKham, ngayLap,\ntongTien, thanhTien)
+P4_3 --> D6 : Ghi chi tiết hóa đơn\n(maHoaDon, maThuoc, soLuong,\ndonGia, thanhTien)
+P4_3 --> D7 : Cập nhật số lượng thuốc\n(soLuong = soLuong - soLuongBan)
+P4_3 --> D3 : Cập nhật trạng thái\n(trangThai = "Đã thanh toán")
+P4_3 --> P4_4 : Thông tin thanh toán thành công\n(maBn, maTk)
+P4_4 --> D1 : Cập nhật điểm tích lũy\n(diemTichLuy = diemTichLuy + 1)
+
+' Inter-process flows
+P4_2 --> P4_1 : Thông báo giảm giá đã áp dụng
+
+note right of P4_1
+  **4.1 Tính toán Chi phí**
+  - Đọc phiếu khám từ D3
+  - Đọc toa thuốc từ D4
+  - Đọc giá thuốc từ D7
+  - Tính:
+    * Tiền khám: 100,000 VNĐ
+    * Tổng tiền thuốc: Sum(soLuong * giaBan)
+    * Tổng cộng = Tiền khám + Tổng tiền thuốc
+  - Chuyển sang 4.2
+end note
+
+note right of P4_2
+  **4.2 Áp dụng Giảm giá**
+  - Đọc điểm tích lũy từ D1
+  - Đọc thông tin BHYT từ D2
+  - Tính giảm giá:
+    * BHYT: Giảm 80% (nếu có)
+    * Điểm tích lũy: Giảm 10% (nếu có >= 1 điểm)
+  - Tính thành tiền = Tổng cộng - Giảm giá
+  - Chuyển sang 4.3
+end note
+
+note right of P4_3
+  **4.3 Tạo Hóa đơn và Chi tiết**
+  - Sinh mã hóa đơn (HD001, HD002...)
+  - Tạo hóa đơn:
+    * maHoaDon, maKham
+    * ngayLap, tongTien, thanhTien
+  - Tạo chi tiết hóa đơn cho từng thuốc
+  - Cập nhật số lượng thuốc trong kho (D7)
+  - Cập nhật trạng thái phiếu khám (D3)
+  - Chuyển sang 4.4
+end note
+
+note right of P4_4
+  **4.4 Cập nhật Điểm tích lũy**
+  - Cộng điểm tích lũy: +1
+  - Cập nhật vào D1
+  - Hoàn tất thanh toán
+end note
+
+@enduml
+

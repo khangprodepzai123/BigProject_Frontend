@@ -1,0 +1,82 @@
+@startuml Data Flow Diagram - Mức 1 - Process 3.0 Khám bệnh và Kê toa
+
+title DFD Level 1 - Process 3.0: Khám bệnh và Kê toa
+
+!define EXTERNAL_COLOR #FFE0B2
+!define PROCESS_COLOR #C8E6C9
+!define STORE_COLOR #FFF9C4
+
+skinparam component {
+    BackgroundColor<<external>> EXTERNAL_COLOR
+    BackgroundColor<<process>> PROCESS_COLOR
+    BackgroundColor<<store>> STORE_COLOR
+}
+
+' ===== EXTERNAL ENTITIES =====
+component "Bác sĩ\n(Doctor)" as Doctor <<external>>
+component "Nhân viên\n(Staff)" as Staff <<external>>
+
+' ===== SUB-PROCESSES =====
+component "3.1\nNhập thông tin\nKhám" as P3_1 <<process>>
+component "3.2\nKê Toa\nThuốc" as P3_2 <<process>>
+component "3.3\nCập nhật\nTrạng thái" as P3_3 <<process>>
+
+' ===== DATA STORES =====
+database "D3\nPhiếu khám" as D3 <<store>>
+database "D4\nToa thuốc" as D4 <<store>>
+database "D7\nThuốc" as D7 <<store>>
+database "D8\nBác sĩ" as D8 <<store>>
+
+' ===== DATA FLOWS =====
+
+' External -> Processes
+Doctor --> P3_1 : Thông tin khám\n(lyDoKham, quaTrinhBenhLy,\ntienSuBenhNhan, tienSuGiaDinh,\nkhamBoPhan, maBs, maCd,\nloaiKham, xuTriKham)
+Doctor --> P3_2 : Thông tin toa thuốc\n(maThuoc, soLuong,\nlieuDung, cachDung)
+Staff --> P3_1 : Yêu cầu tạo phiếu khám\n(maBn)
+
+' Processes -> External
+P3_1 --> Doctor : Danh sách bệnh nhân cần khám\nDanh sách bác sĩ\nDanh sách chuẩn đoán
+P3_2 --> Doctor : Thông báo kê toa thành công
+P3_3 --> Doctor : Thông báo cập nhật thành công
+
+' Processes <-> Data Stores
+P3_1 <--> D3 : Đọc/Cập nhật thông tin khám\n(lyDoKham, quaTrinhBenhLy, ...)
+P3_1 <--> D8 : Đọc danh sách bác sĩ
+P3_1 --> P3_2 : Thông tin khám đã nhập
+P3_2 <--> D4 : Ghi toa thuốc\n(maKham, maThuoc, soLuong,\nlieuDung, cachDung)
+P3_2 <--> D7 : Đọc danh sách thuốc\nĐọc giá thuốc
+P3_1 --> P3_3 : Yêu cầu cập nhật trạng thái
+P3_3 --> D3 : Cập nhật trạng thái = "Đã khám"
+
+' Inter-process flows
+P3_2 --> P3_1 : Thông báo kê toa thành công
+P3_3 --> P3_1 : Thông báo cập nhật thành công
+
+note right of P3_1
+  **3.1 Nhập thông tin Khám**
+  - Đọc thông tin phiếu khám từ D3
+  - Đọc danh sách bác sĩ từ D8
+  - Nhận thông tin khám từ bác sĩ
+  - Cập nhật vào D3
+  - Chuyển sang 3.2 để kê toa
+end note
+
+note right of P3_2
+  **3.2 Kê Toa Thuốc**
+  - Đọc danh sách thuốc từ D7
+  - Nhận thông tin toa thuốc từ bác sĩ
+  - Lưu từng thuốc vào D4:
+    * maKham, maThuoc
+    * soLuong, lieuDung, cachDung
+  - Trả về thông báo thành công
+end note
+
+note right of P3_3
+  **3.3 Cập nhật Trạng thái**
+  - Cập nhật trạng thái phiếu khám
+  - Trạng thái: "Đang khám" → "Đã khám"
+  - Lưu vào D3
+end note
+
+@enduml
+

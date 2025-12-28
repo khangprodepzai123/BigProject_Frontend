@@ -1,0 +1,100 @@
+@startuml Activity Diagram - Xem Bệnh án và Toa thuốc
+
+title Activity Diagram - Quy trình Xem Bệnh án và Toa thuốc (Android)
+
+start
+
+:Bệnh nhân đăng nhập vào ứng dụng;
+:Chọn chức năng "Bệnh án" hoặc "Toa thuốc hiện tại";
+
+if (Chức năng?) then (Bệnh án)
+  :Gửi request GET /api/BenhAn/me;
+  :Header: Authorization Bearer {token};
+  
+  if (Token hợp lệ?) then (Không)
+    :Trả về 401 Unauthorized;
+    :Yêu cầu đăng nhập lại;
+    stop
+  endif
+  
+  :Lấy MaTk từ token;
+  :Tìm tài khoản và bệnh nhân liên kết;
+  
+  if (Tài khoản chưa liên kết với bệnh nhân?) then (Có)
+    :Trả về lỗi "Tài khoản chưa liên kết";
+    :Hiển thị thông báo;
+    stop
+  endif
+  
+  :Tìm tất cả bệnh án của bệnh nhân;
+  :Load thông tin:
+  - Thông tin bệnh án (MaBenhAn, NgayKham, NgayLuu)
+  - Thông tin bác sĩ (HoTenBs)
+  - Chuẩn đoán
+  - Toa thuốc (BenhAnToaThuoc);
+  
+  :Trả về danh sách bệnh án;
+  :Hiển thị danh sách trên màn hình;
+  
+  if (Người dùng chọn xem chi tiết?) then (Có)
+    :Hiển thị chi tiết bệnh án:
+    - Thông tin khám
+    - Danh sách thuốc
+    - Liều dùng, cách dùng;
+  endif
+  
+else (Toa thuốc hiện tại)
+  :Gửi request GET /api/BenhAn/toathuoc-hientai;
+  :Header: Authorization Bearer {token};
+  
+  if (Token hợp lệ?) then (Không)
+    :Trả về 401 Unauthorized;
+    :Yêu cầu đăng nhập lại;
+    stop
+  endif
+  
+  :Lấy MaTk từ token;
+  :Tìm tài khoản và bệnh nhân liên kết;
+  
+  if (Tài khoản chưa liên kết?) then (Có)
+    :Trả về lỗi;
+    stop
+  endif
+  
+  :Tìm phiếu khám đã thanh toán gần nhất:
+  - Join KhamBenh với HoaDon
+  - Điều kiện: HoaDon.TrangThai = "Đã thanh toán"
+  - OrderBy NgayLap DESC
+  - Lấy bản ghi đầu tiên;
+  
+  if (Không tìm thấy phiếu khám đã thanh toán?) then (Có)
+    :Trả về "Chưa có toa thuốc";
+    :Hiển thị thông báo;
+    stop
+  endif
+  
+  :Load thông tin toa thuốc:
+  - Thông tin phiếu khám
+  - Bác sĩ
+  - Chuẩn đoán
+  - Danh sách thuốc từ ToaThuoc;
+  
+  :Parse liều dùng để tính số lần uống mỗi ngày:
+  - Sử dụng Regex để tìm số trong LieuDung
+  - Ví dụ: "1 viên/lần" → 1 lần/ngày;
+  
+  :Trả về thông tin toa thuốc;
+  :Hiển thị trên màn hình:
+  - Thông tin chung
+  - Danh sách thuốc với:
+    * Tên thuốc
+    * Số lượng
+    * Liều dùng
+    * Cách dùng
+    * Số lần uống mỗi ngày;
+endif
+
+stop
+
+@enduml
+

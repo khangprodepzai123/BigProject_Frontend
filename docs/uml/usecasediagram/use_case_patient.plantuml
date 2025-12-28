@@ -1,0 +1,93 @@
+@startuml Use Case Diagram - Bệnh nhân
+
+title Use Case Diagram - Bệnh nhân (Patient)
+
+actor "Bệnh nhân\n(Patient)" as Patient #E3F2FD
+
+' ===== PACKAGE: Authentication =====
+package "Xác thực" {
+    usecase "Đăng nhập" as UC_Login
+    usecase "Đăng xuất" as UC_Logout
+    usecase "Đăng ký tài khoản" as UC_Signup
+}
+
+' ===== PACKAGE: Patient Management =====
+package "Quản lý thông tin" {
+    usecase "Xem thông tin cá nhân" as UC_ViewProfile
+    usecase "Cập nhật thông tin" as UC_UpdateProfile
+}
+
+' ===== PACKAGE: Appointment =====
+package "Đăng ký khám" {
+    usecase "Đăng ký khám bệnh" as UC_RegisterKham
+}
+
+' ===== PACKAGE: Medical Records =====
+package "Bệnh án" {
+    usecase "Xem danh sách bệnh án" as UC_ViewBenhAn
+    usecase "Xem chi tiết bệnh án" as UC_ViewBenhAnDetail
+}
+
+' ===== PACKAGE: Prescription =====
+package "Toa thuốc" {
+    usecase "Xem toa thuốc hiện tại" as UC_ViewToaThuoc
+    usecase "Xem lịch sử toa thuốc" as UC_ViewToaThuocHistory
+}
+
+' ===== PACKAGE: Invoice =====
+package "Hóa đơn" {
+    usecase "Xem danh sách hóa đơn" as UC_ViewHoaDon
+    usecase "Xem chi tiết hóa đơn" as UC_ViewHoaDonDetail
+}
+
+' ===== PACKAGE: Loyalty Points =====
+package "Điểm tích lũy" {
+    usecase "Xem điểm tích lũy" as UC_ViewDiemTichLuy
+    usecase "Xem mức ưu đãi" as UC_ViewMucUuDai
+    usecase "Sử dụng điểm giảm giá" as UC_UseDiemGiamGia
+}
+
+' ===== PACKAGE: Doctor Information =====
+package "Thông tin bác sĩ" {
+    usecase "Xem danh sách bác sĩ" as UC_ViewDanhSachBacSi
+    usecase "Xem thông tin chi tiết bác sĩ" as UC_ViewBacSiDetail
+    usecase "Tìm kiếm bác sĩ" as UC_SearchBacSi
+}
+
+' ===== RELATIONSHIPS =====
+Patient --> UC_Login
+Patient --> UC_Logout
+Patient --> UC_Signup
+Patient --> UC_ViewProfile
+Patient --> UC_UpdateProfile
+Patient --> UC_RegisterKham
+Patient --> UC_ViewBenhAn
+Patient --> UC_ViewBenhAnDetail
+Patient --> UC_ViewToaThuoc
+Patient --> UC_ViewToaThuocHistory
+Patient --> UC_ViewHoaDon
+Patient --> UC_ViewHoaDonDetail
+Patient --> UC_ViewDiemTichLuy
+Patient --> UC_ViewMucUuDai
+Patient --> UC_UseDiemGiamGia
+Patient --> UC_ViewDanhSachBacSi
+Patient --> UC_ViewBacSiDetail
+Patient --> UC_SearchBacSi
+
+' ===== EXTENDS/INCLUDES =====
+UC_ViewBenhAnDetail ..> UC_ViewBenhAn : <<extend>>
+UC_ViewHoaDonDetail ..> UC_ViewHoaDon : <<extend>>
+UC_ViewBacSiDetail ..> UC_ViewDanhSachBacSi : <<extend>>
+UC_UseDiemGiamGia ..> UC_RegisterKham : <<include>>
+
+note right of Patient
+  **Bệnh nhân** có thể:
+  - Đăng ký và quản lý tài khoản
+  - Đăng ký khám bệnh qua Android
+  - Xem bệnh án, toa thuốc, hóa đơn
+  - Xem và sử dụng điểm tích lũy
+  - Xem thông tin bác sĩ
+end note
+
+@enduml
+

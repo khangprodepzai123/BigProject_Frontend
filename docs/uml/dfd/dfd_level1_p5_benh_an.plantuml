@@ -1,0 +1,86 @@
+@startuml Data Flow Diagram - Mức 1 - Process 5.0 Quản lý Bệnh án
+
+title DFD Level 1 - Process 5.0: Quản lý Bệnh án
+
+!define EXTERNAL_COLOR #FFE0B2
+!define PROCESS_COLOR #C8E6C9
+!define STORE_COLOR #FFF9C4
+
+skinparam component {
+    BackgroundColor<<external>> EXTERNAL_COLOR
+    BackgroundColor<<process>> PROCESS_COLOR
+    BackgroundColor<<store>> STORE_COLOR
+}
+
+' ===== EXTERNAL ENTITIES =====
+component "Bệnh nhân\n(Patient)" as Patient <<external>>
+component "Bác sĩ\n(Doctor)" as Doctor <<external>>
+
+' ===== SUB-PROCESSES =====
+component "5.1\nLưu Bệnh án" as P5_1 <<process>>
+component "5.2\nXem Bệnh án" as P5_2 <<process>>
+component "5.3\nParse Liều\nDùng" as P5_3 <<process>>
+
+' ===== DATA STORES =====
+database "D3\nPhiếu khám" as D3 <<store>>
+database "D4\nToa thuốc" as D4 <<store>>
+database "D5\nBệnh án" as D5 <<store>>
+
+' ===== DATA FLOWS =====
+
+' External -> Processes
+Doctor --> P5_1 : Yêu cầu lưu bệnh án\n(maKham)
+Patient --> P5_2 : Yêu cầu xem bệnh án\n(token)
+Patient --> P5_2 : Yêu cầu xem toa thuốc hiện tại\n(token)
+
+' Processes -> External
+P5_1 --> Doctor : Thông báo lưu thành công\n(maBenhAn)
+P5_2 --> Patient : Danh sách bệnh án\n(maBenhAn, ngayKham, ngayLuu,\nbacSi, chuanDoan, toaThuoc)
+P5_2 --> Patient : Toa thuốc hiện tại\n(maKham, ngayKham, bacSi,\nchuanDoan, toaThuoc với soLanUongMoiNgay)
+
+' Processes <-> Data Stores
+P5_1 <--> D3 : Đọc phiếu khám\n(maKham, thông tin khám)
+P5_1 <--> D4 : Đọc toa thuốc\n(maKham, maThuoc, soLuong,\nlieuDung, cachDung)
+P5_1 --> D5 : Ghi bệnh án\n(maBenhAn, maKham, maBn, maBs,\nngayKham, ngayLuu, thông tin khám)
+P5_1 --> D5 : Ghi toa thuốc vào bệnh án\n(maBenhAn, maThuoc, soLuong,\nlieuDung, cachDung)
+P5_2 <--> D5 : Đọc bệnh án\n(theo maBn)
+P5_2 <--> D3 : Đọc phiếu khám đã thanh toán\n(join với HoaDon, order by ngayLap DESC)
+P5_2 <--> D4 : Đọc toa thuốc từ phiếu khám
+P5_2 --> P5_3 : Liều dùng\n(lieuDung string)
+P5_3 --> P5_2 : Số lần uống mỗi ngày\n(soLanUongMoiNgay)
+
+' Inter-process flows
+P5_2 --> P5_1 : Thông tin để lưu (nếu cần)
+
+note right of P5_1
+  **5.1 Lưu Bệnh án**
+  - Kiểm tra bệnh án đã tồn tại (theo maKham)
+  - Đọc thông tin khám từ D3
+  - Đọc toa thuốc từ D4
+  - Sinh mã bệnh án (BA001, BA002...)
+  - Lưu bệnh án vào D5
+  - Lưu toa thuốc vào bệnh án
+  - Trả về maBenhAn
+end note
+
+note right of P5_2
+  **5.2 Xem Bệnh án**
+  - Lấy MaTk từ token
+  - Tìm MaBn từ tài khoản
+  - Đọc danh sách bệnh án từ D5 (theo maBn)
+  - Hoặc tìm phiếu khám đã thanh toán gần nhất (cho toa thuốc hiện tại)
+  - Đọc toa thuốc từ D4 hoặc từ bệnh án
+  - Gọi 5.3 để parse liều dùng
+  - Trả về kết quả
+end note
+
+note right of P5_3
+  **5.3 Parse Liều Dùng**
+  - Nhận chuỗi lieuDung (ví dụ: "1 viên/lần")
+  - Sử dụng Regex để tìm số
+  - Tính số lần uống mỗi ngày
+  - Trả về soLanUongMoiNgay
+end note
+
+@enduml
+

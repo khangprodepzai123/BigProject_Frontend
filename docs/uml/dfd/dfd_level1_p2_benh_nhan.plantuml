@@ -1,0 +1,94 @@
+@startuml Data Flow Diagram - Mức 1 - Process 2.0 Quản lý Bệnh nhân
+
+title DFD Level 1 - Process 2.0: Quản lý Bệnh nhân
+
+!define EXTERNAL_COLOR #FFE0B2
+!define PROCESS_COLOR #C8E6C9
+!define STORE_COLOR #FFF9C4
+
+skinparam component {
+    BackgroundColor<<external>> EXTERNAL_COLOR
+    BackgroundColor<<process>> PROCESS_COLOR
+    BackgroundColor<<store>> STORE_COLOR
+}
+
+' ===== EXTERNAL ENTITIES =====
+component "Bệnh nhân\n(Patient)" as Patient <<external>>
+component "Nhân viên\n(Staff)" as Staff <<external>>
+
+' ===== SUB-PROCESSES =====
+component "2.1\nĐăng ký\nKhám bệnh" as P2_1 <<process>>
+component "2.2\nTạo Bệnh nhân\nMới" as P2_2 <<process>>
+component "2.3\nTạo Phiếu\nKhám" as P2_3 <<process>>
+component "2.4\nLiên kết\nTài khoản" as P2_4 <<process>>
+
+' ===== DATA STORES =====
+database "D1\nTài khoản" as D1 <<store>>
+database "D2\nBệnh nhân" as D2 <<store>>
+database "D3\nPhiếu khám" as D3 <<store>>
+
+' ===== DATA FLOWS =====
+
+' External -> Processes
+Patient --> P2_1 : Thông tin đăng ký khám\n(hoTenBn, sdt, ngaySinh, gt,\ndoiTuong, diaChi, bhyt,\nlyDoKham, thoiGianHenKham)
+Staff --> P2_3 : Yêu cầu tạo phiếu khám\n(maBn)
+
+' Processes -> External
+P2_1 --> Patient : Thông báo đăng ký thành công\n(maBn, maKham, hoTenBn,\nthoiGianHenKham)
+
+' Processes <-> Data Stores
+P2_1 --> P2_2 : Kiểm tra bệnh nhân đã tồn tại\n(theo SDT)
+P2_2 <--> D2 : Đọc/Ghi thông tin bệnh nhân\n(maBn, hoTenBn, SDT, ...)
+P2_1 --> P2_3 : Tạo phiếu khám\n(maBn)
+P2_3 --> D3 : Ghi phiếu khám mới\n(maKham, maBn, maBs, maCd,\nngayKham, trangThai="Đang khám")
+P2_1 --> P2_4 : Liên kết tài khoản\n(maBn, token)
+P2_4 <--> D1 : Cập nhật MaBn vào tài khoản
+P2_4 <--> D2 : Đọc thông tin bệnh nhân
+
+' Inter-process flows
+P2_2 --> P2_1 : MaBn (mới hoặc đã có)
+P2_3 --> P2_1 : MaKham
+P2_4 --> P2_1 : Thông báo liên kết thành công
+
+note right of P2_1
+  **2.1 Đăng ký Khám bệnh**
+  - Nhận thông tin đăng ký từ bệnh nhân
+  - Validate dữ liệu
+  - Gọi 2.2 để kiểm tra/tạo bệnh nhân
+  - Gọi 2.3 để tạo phiếu khám
+  - Gọi 2.4 để liên kết tài khoản (nếu có token)
+  - Trả về kết quả
+end note
+
+note right of P2_2
+  **2.2 Tạo Bệnh nhân Mới**
+  - Kiểm tra SDT đã tồn tại trong D2
+  - Nếu có: Trả về MaBn hiện có
+  - Nếu không: Tạo bệnh nhân mới
+    * Sinh mã BN001, BN002...
+    * Lưu vào D2
+  - Trả về MaBn
+end note
+
+note right of P2_3
+  **2.3 Tạo Phiếu Khám**
+  - Sinh mã phiếu khám (KB001, KB002...)
+  - Tạo bản ghi KhamBenh:
+    * maKham, maBn
+    * maBs (bác sĩ mặc định)
+    * maCd (chuẩn đoán mặc định)
+    * ngayKham (ngày hiện tại)
+    * trangThai = "Đang khám"
+  - Lưu vào D3
+  - Trả về maKham
+end note
+
+note right of P2_4
+  **2.4 Liên kết Tài khoản**
+  - Lấy MaTk từ token (nếu có)
+  - Cập nhật MaBn vào TaiKhoanBenhNhan
+  - Lưu vào D1
+end note
+
+@enduml
+

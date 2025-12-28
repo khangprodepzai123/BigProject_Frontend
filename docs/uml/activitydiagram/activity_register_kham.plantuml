@@ -1,0 +1,75 @@
+@startuml Activity Diagram - Đăng ký khám bệnh
+
+title Activity Diagram - Quy trình Đăng ký khám bệnh (Android)
+
+start
+
+:Bệnh nhân đăng nhập vào ứng dụng;
+:Chọn chức năng "Đăng ký khám";
+:Hiển thị form đăng ký khám;
+
+:Người dùng nhập thông tin:
+- Họ tên (bắt buộc)
+- Số điện thoại (bắt buộc)
+- Ngày sinh (tùy chọn)
+- Giới tính (tùy chọn)
+- Đối tượng (tùy chọn)
+- Địa chỉ (tùy chọn)
+- BHYT (tùy chọn)
+- Lý do khám (tùy chọn)
+- Thời gian hẹn khám (bắt buộc);
+
+if (Thông tin hợp lệ?) then (Không)
+  :Hiển thị lỗi validation;
+  :Quay lại form;
+  stop
+endif
+
+:Nhấn nút "Đăng ký khám";
+:Gửi request đến API /api/BenhNhan/register;
+
+:Kiểm tra token Authorization;
+
+if (Token hợp lệ?) then (Không)
+  :Trả về 401 Unauthorized;
+  :Yêu cầu đăng nhập lại;
+  stop
+endif
+
+:Kiểm tra bệnh nhân đã tồn tại (theo SDT);
+
+if (Bệnh nhân đã tồn tại?) then (Có)
+  :Sử dụng MaBn hiện có;
+else (Không)
+  :Tạo mã bệnh nhân mới (BN001, BN002...);
+  :Tạo bản ghi BenhNhan mới;
+endif
+
+:Tạo mã phiếu khám mới (KB001, KB002...);
+:Tạo bản ghi KhamBenh với:
+- Trạng thái: "Đang khám"
+- Ngày khám: Ngày hiện tại
+- Bác sĩ: Bác sĩ mặc định
+- Chuẩn đoán: Chuẩn đoán mặc định;
+
+if (Có token trong request?) then (Có)
+  :Lấy MaTk từ token;
+  :Liên kết tài khoản với bệnh nhân:
+  - Cập nhật MaBn vào TaiKhoanBenhNhan;
+endif
+
+:Lưu vào database;
+
+:Trả về response thành công:
+- MaBn
+- MaKham
+- HoTenBn
+- ThoiGianHenKham;
+
+:Hiển thị thông báo "Đăng ký khám thành công";
+:Quay lại màn hình chính;
+
+stop
+
+@enduml
+
