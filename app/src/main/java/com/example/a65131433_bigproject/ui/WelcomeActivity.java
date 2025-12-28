@@ -15,7 +15,7 @@ import com.example.a65131433_bigproject.viewmodel.AuthViewModel;
 
 public class WelcomeActivity extends AppCompatActivity {
     private TextView tvWelcome, tvUsername, tvMaBn, tvHoTen, tvDiemTichLuy, tvMaTk;
-    private Button btnLogout, btnDangKyKham, btnBenhAn, btnHoaDon, btnToaThuocHienTai;
+    private Button btnLogout, btnDangKyKham, btnBenhAn, btnHoaDon, btnToaThuocHienTai, btnDiemTichLuy;
     private AuthViewModel viewModel;
     private SharedPrefManager prefManager;
 
@@ -42,6 +42,7 @@ public class WelcomeActivity extends AppCompatActivity {
         btnBenhAn = findViewById(R.id.btnBenhAn);
         btnHoaDon = findViewById(R.id.btnHoaDon);
         btnToaThuocHienTai = findViewById(R.id.btnToaThuocHienTai);
+        btnDiemTichLuy = findViewById(R.id.btnDiemTichLuy);
 
         prefManager = SharedPrefManager.getInstance(this);
     }
@@ -95,6 +96,10 @@ public class WelcomeActivity extends AppCompatActivity {
             } else {
                 startActivity(new Intent(WelcomeActivity.this, ToaThuocHienTaiActivity.class));
             }
+        });
+
+        btnDiemTichLuy.setOnClickListener(v -> {
+            startActivity(new Intent(WelcomeActivity.this, DiemTichLuyActivity.class));
         });
 
         btnLogout.setOnClickListener(v -> {

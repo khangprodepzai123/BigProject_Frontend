@@ -58,6 +58,11 @@
             android:name=".ui.ToaThuocHienTaiActivity"
             android:exported="false" />
 
+        <!-- Diem Tich Luy Activity -->
+        <activity
+            android:name=".ui.DiemTichLuyActivity"
+            android:exported="false" />
+
     </application>
 
 </manifest>

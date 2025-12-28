@@ -45,4 +45,8 @@ public class RetrofitClient {
     public static HoaDonApi getHoaDonApi() {
         return getRetrofitInstance().create(HoaDonApi.class);
     }
+
+    public static DiemTichLuyApi getDiemTichLuyApi() {
+        return getRetrofitInstance().create(DiemTichLuyApi.class);
+    }
 }
