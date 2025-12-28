@@ -6,7 +6,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 
 public interface DiemTichLuyApi {
-    @GET("api/diemtichluy/me")
+    @GET("api/DiemTichLuy/me")
     Call<DiemTichLuyResponse> getMyDiemTichLuy(@Header("Authorization") String token);
 }
 

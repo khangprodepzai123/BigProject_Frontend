@@ -49,4 +49,8 @@ public class RetrofitClient {
     public static DiemTichLuyApi getDiemTichLuyApi() {
         return getRetrofitInstance().create(DiemTichLuyApi.class);
     }
+
+    public static BacSiApi getBacSiApi() {
+        return getRetrofitInstance().create(BacSiApi.class);
+    }
 }

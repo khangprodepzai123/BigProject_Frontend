@@ -63,6 +63,11 @@
             android:name=".ui.DiemTichLuyActivity"
             android:exported="false" />
 
+        <!-- Danh Sach Bac Si Activity -->
+        <activity
+            android:name=".ui.DanhSachBacSiActivity"
+            android:exported="false" />
+
     </application>
 
 </manifest>

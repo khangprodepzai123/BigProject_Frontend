@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="12dp"
+    app:cardElevation="4dp"
+    app:cardCornerRadius="8dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Tên bác sĩ -->
+        <TextView
+            android:id="@+id/tvHoTenBs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Bác sĩ Nguyễn Văn A"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#1e88e5"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Mã bác sĩ -->
+        <TextView
+            android:id="@+id/tvMaBs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Mã BS: BS001"
+            android:textSize="14sp"
+            android:textColor="#666"
+            android:layout_marginBottom="4dp" />
+
+        <!-- Trình độ học vấn -->
+        <TextView
+            android:id="@+id/tvTrinhDoHocVan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Trình độ: Tiến sĩ Y khoa"
+            android:textSize="14sp"
+            android:textColor="#333"
+            android:layout_marginBottom="4dp"
+            android:visibility="gone" />
+
+        <!-- Chuyên khoa -->
+        <TextView
+            android:id="@+id/tvChuyenKhoa"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Chuyên khoa: Nội khoa"
+            android:textSize="14sp"
+            android:textColor="#333"
+            android:layout_marginBottom="4dp"
+            android:visibility="gone" />
+
+        <!-- Tuổi và Kinh nghiệm -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="4dp">
+
+            <TextView
+                android:id="@+id/tvTuoi"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Tuổi: 45"
+                android:textSize="14sp"
+                android:textColor="#333"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/tvKinhNghiem"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Kinh nghiệm: 20 năm"
+                android:textSize="14sp"
+                android:textColor="#333"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <!-- Chứng chỉ hành nghề -->
+        <TextView
+            android:id="@+id/tvChungChiHanhNghe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Chứng chỉ: CC001"
+            android:textSize="14sp"
+            android:textColor="#666"
+            android:layout_marginBottom="8dp"
+            android:visibility="gone" />
+
+        <!-- Số lượt khám -->
+        <TextView
+            android:id="@+id/tvSoLuotKham"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Đã khám: 50 lượt"
+            android:textSize="14sp"
+            android:textColor="#4caf50"
+            android:textStyle="italic" />
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
+

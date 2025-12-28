@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:padding="16dp">
+
+    <!-- Header với nút quay lại -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="24dp">
+        
+        <Button
+            android:id="@+id/btnQuayLai"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="← Quay lại"
+            android:textSize="14sp"
+            android:background="?attr/selectableItemBackground"
+            android:textColor="#1e88e5"
+            android:padding="8dp" />
+        
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Danh sách bác sĩ"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="#1e88e5"
+            android:textAlignment="center" />
+    </LinearLayout>
+
+    <!-- Empty state -->
+    <TextView
+        android:id="@+id/tvEmpty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Đang tải..."
+        android:textSize="16sp"
+        android:textColor="#666"
+        android:textAlignment="center"
+        android:padding="32dp"
+        android:visibility="gone" />
+
+    <!-- RecyclerView danh sách bác sĩ -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewBacSi"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>
+
