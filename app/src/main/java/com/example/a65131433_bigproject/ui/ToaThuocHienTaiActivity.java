@@ -45,6 +45,12 @@ public class ToaThuocHienTaiActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new ToaThuocHienTaiAdapter(new ArrayList<>());
         recyclerView.setAdapter(adapter);
+        
+        // Nút quay lại
+        android.widget.Button btnQuayLai = findViewById(R.id.btnQuayLai);
+        if (btnQuayLai != null) {
+            btnQuayLai.setOnClickListener(v -> finish());
+        }
     }
 
     private void initViewModel() {
@@ -53,8 +59,12 @@ public class ToaThuocHienTaiActivity extends AppCompatActivity {
 
     private void loadToaThuoc() {
         String token = prefManager.getToken();
+        android.util.Log.d("ToaThuocHienTai", "Token from SharedPref: " + (token != null ? "exists" : "null"));
         if (token != null && !token.isEmpty()) {
-            viewModel.getToaThuocHienTai("Bearer " + token);
+            // Token đã có "Bearer " prefix từ AuthRepository (xem AuthRepository.java dòng 37, 72)
+            // Không cần thêm "Bearer " nữa, dùng trực tiếp như BenhAnActivity và HoaDonActivity
+            android.util.Log.d("ToaThuocHienTai", "Calling API with token: " + token.substring(0, Math.min(30, token.length())) + "...");
+            viewModel.getToaThuocHienTai(token);
         } else {
             Toast.makeText(this, "Vui lòng đăng nhập lại", Toast.LENGTH_SHORT).show();
             finish();
@@ -73,9 +83,21 @@ public class ToaThuocHienTaiActivity extends AppCompatActivity {
         });
 
         viewModel.toaThuocResponse.observe(this, response -> {
+            android.util.Log.d("ToaThuocHienTai", "Response received: " + (response != null ? "not null" : "null"));
+            if (response != null) {
+                android.util.Log.d("ToaThuocHienTai", "Response success: " + response.isSuccess());
+                android.util.Log.d("ToaThuocHienTai", "Response message: " + response.getMessage());
+            }
+            
             if (response != null && response.isSuccess()) {
                 ToaThuocHienTaiResponse.ToaThuocHienTaiData data = response.getData();
+                android.util.Log.d("ToaThuocHienTai", "Data: " + (data != null ? "not null" : "null"));
+                if (data != null) {
+                    android.util.Log.d("ToaThuocHienTai", "ToaThuoc: " + (data.getToaThuoc() != null ? "not null, size=" + data.getToaThuoc().size() : "null"));
+                }
+                
                 if (data != null && data.getToaThuoc() != null && !data.getToaThuoc().isEmpty()) {
+                    android.util.Log.d("ToaThuocHienTai", "Displaying toa thuoc with " + data.getToaThuoc().size() + " items");
                     // Hiển thị thông tin
                     tvNgayKham.setText("Ngày khám: " + (data.getNgayKham() != null ? data.getNgayKham() : "N/A"));
                     tvBacSi.setText("Bác sĩ: " + (data.getBacSi() != null ? data.getBacSi() : "N/A"));
@@ -86,12 +108,15 @@ public class ToaThuocHienTaiActivity extends AppCompatActivity {
                     recyclerView.setVisibility(android.view.View.VISIBLE);
                     tvEmpty.setVisibility(android.view.View.GONE);
                 } else {
+                    android.util.Log.d("ToaThuocHienTai", "No toa thuoc data or empty list");
                     tvEmpty.setText("Chưa có toa thuốc nào");
                     recyclerView.setVisibility(android.view.View.GONE);
                     tvEmpty.setVisibility(android.view.View.VISIBLE);
                 }
             } else {
-                tvEmpty.setText("Chưa có toa thuốc nào");
+                android.util.Log.d("ToaThuocHienTai", "Response is null or not success");
+                String message = response != null ? response.getMessage() : "Không có dữ liệu";
+                tvEmpty.setText(message);
                 recyclerView.setVisibility(android.view.View.GONE);
                 tvEmpty.setVisibility(android.view.View.VISIBLE);
             }

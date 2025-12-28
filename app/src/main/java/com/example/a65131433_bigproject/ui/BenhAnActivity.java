@@ -46,6 +46,12 @@ public class BenhAnActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new BenhAnAdapter(new ArrayList<>());
         recyclerView.setAdapter(adapter);
+        
+        // Nút quay lại
+        android.widget.Button btnQuayLai = findViewById(R.id.btnQuayLai);
+        if (btnQuayLai != null) {
+            btnQuayLai.setOnClickListener(v -> finish());
+        }
     }
 
     private void initViewModel() {

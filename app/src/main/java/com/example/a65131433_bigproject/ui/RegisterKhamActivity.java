@@ -93,6 +93,12 @@ public class RegisterKhamActivity extends AppCompatActivity {
                 registerKham();
             }
         });
+        
+        // Nút quay lại
+        Button btnQuayLai = findViewById(R.id.btnQuayLai);
+        if (btnQuayLai != null) {
+            btnQuayLai.setOnClickListener(v -> finish());
+        }
     }
 
     private void showDatePickerDialog(boolean isNgaySinh) {

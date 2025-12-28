@@ -20,16 +20,22 @@ public class ToaThuocHienTaiViewModel extends AndroidViewModel {
 
     public void getToaThuocHienTai(String token) {
         isLoading.setValue(true);
+        errorMessage.setValue(null); // Clear previous error
+        
         repository.getToaThuocHienTai(token).observeForever(response -> {
             isLoading.setValue(false);
             if (response != null) {
                 if (response.isSuccess()) {
                     toaThuocResponse.setValue(response);
+                    errorMessage.setValue(null); // Clear error on success
                 } else {
-                    errorMessage.setValue(response.getMessage());
+                    String errorMsg = response.getMessage() != null ? response.getMessage() : "Lỗi không xác định";
+                    errorMessage.setValue(errorMsg);
+                    toaThuocResponse.setValue(null); // Clear response on error
                 }
             } else {
                 errorMessage.setValue("Lỗi kết nối mạng");
+                toaThuocResponse.setValue(null);
             }
         });
     }
