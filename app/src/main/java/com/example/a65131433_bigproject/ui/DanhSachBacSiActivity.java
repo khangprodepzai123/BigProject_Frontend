@@ -43,9 +43,10 @@ public class DanhSachBacSiActivity extends AppCompatActivity {
 
         // Nút quay lại
         android.widget.Button btnQuayLai = findViewById(R.id.btnQuayLai);
-        if (btnQuayLai != null) {
-            btnQuayLai.setOnClickListener(v -> finish());
-        }
+        btnQuayLai.setOnClickListener(v -> {
+            android.util.Log.d("DanhSachBacSi", "Quay lại button clicked");
+            finish();
+        });
     }
 
     private void initViewModel() {

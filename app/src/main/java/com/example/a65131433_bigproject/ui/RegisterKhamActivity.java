@@ -96,9 +96,10 @@ public class RegisterKhamActivity extends AppCompatActivity {
         
         // Nút quay lại
         Button btnQuayLai = findViewById(R.id.btnQuayLai);
-        if (btnQuayLai != null) {
-            btnQuayLai.setOnClickListener(v -> finish());
-        }
+        btnQuayLai.setOnClickListener(v -> {
+            android.util.Log.d("RegisterKham", "Quay lại button clicked");
+            finish();
+        });
     }
 
     private void showDatePickerDialog(boolean isNgaySinh) {

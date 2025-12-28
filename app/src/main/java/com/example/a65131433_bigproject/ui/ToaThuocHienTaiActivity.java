@@ -48,9 +48,10 @@ public class ToaThuocHienTaiActivity extends AppCompatActivity {
         
         // Nút quay lại
         android.widget.Button btnQuayLai = findViewById(R.id.btnQuayLai);
-        if (btnQuayLai != null) {
-            btnQuayLai.setOnClickListener(v -> finish());
-        }
+        btnQuayLai.setOnClickListener(v -> {
+            android.util.Log.d("ToaThuocHienTai", "Quay lại button clicked");
+            finish();
+        });
     }
 
     private void initViewModel() {

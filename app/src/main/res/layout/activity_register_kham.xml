@@ -24,9 +24,11 @@
                 android:layout_height="wrap_content"
                 android:text="← Quay lại"
                 android:textSize="14sp"
-                android:background="?attr/selectableItemBackground"
-                android:textColor="#1e88e5"
-                android:padding="8dp" />
+                android:background="@drawable/btn_quay_lai_background"
+                android:textColor="@color/white"
+                android:padding="12dp"
+                android:minHeight="48dp"
+                android:minWidth="100dp" />
             
             <TextView
                 android:layout_width="0dp"

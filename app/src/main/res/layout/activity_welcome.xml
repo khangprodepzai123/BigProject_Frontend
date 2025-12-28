@@ -1,152 +1,121 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="24dp"
-    android:background="@color/white">
+    android:background="#f5f5f5"
+    android:fillViewport="true">
 
-    <TextView
-        android:id="@+id/tvWelcome"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Xin chào!"
-        android:textSize="28sp"
-        android:textStyle="bold"
-        android:textColor="#1e88e5"
-        android:layout_marginBottom="32dp"
-        android:textAlignment="center" />
-
-    <!-- Card thông tin -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@drawable/card_background"
-        android:padding="16dp"
-        android:layout_marginBottom="16dp">
+        android:padding="16dp">
 
+        <!-- Header Welcome -->
         <TextView
-            android:id="@+id/tvMaTk"
+            android:id="@+id/tvWelcome"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Mã tài khoản: TK001"
-            android:textSize="14sp"
-            android:layout_marginBottom="8dp" />
+            android:text="Xin chào!"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:textColor="#1e88e5"
+            android:layout_marginBottom="8dp"
+            android:textAlignment="center" />
 
-        <TextView
-            android:id="@+id/tvUsername"
+        <!-- Card thông tin người dùng -->
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Tên đăng nhập: user123"
-            android:textSize="14sp"
-            android:layout_marginBottom="8dp" />
+            android:layout_marginBottom="24dp"
+            app:cardElevation="4dp"
+            app:cardCornerRadius="12dp"
+            app:cardBackgroundColor="@color/white">
 
-        <TextView
-            android:id="@+id/tvMaBn"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/tvMaTk"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Mã tài khoản: TK001"
+                    android:textSize="14sp"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:id="@+id/tvUsername"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Tên đăng nhập: user123"
+                    android:textSize="14sp"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:id="@+id/tvMaBn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Mã BN: Chưa liên kết"
+                    android:textSize="14sp"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:id="@+id/tvHoTen"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Họ tên: Chưa cập nhật"
+                    android:textSize="14sp"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:id="@+id/tvDiemTichLuy"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Điểm tích lũy: 0"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Grid chức năng -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewFunctions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Mã BN: Chưa liên kết"
-            android:textSize="14sp"
-            android:layout_marginBottom="8dp" />
+            android:nestedScrollingEnabled="false" />
 
-        <TextView
-            android:id="@+id/tvHoTen"
+        <!-- Nút đăng xuất -->
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Họ tên: Chưa cập nhật"
-            android:textSize="14sp"
-            android:layout_marginBottom="8dp" />
+            android:layout_marginTop="16dp"
+            app:cardElevation="2dp"
+            app:cardCornerRadius="12dp"
+            app:cardBackgroundColor="#f44336">
 
-        <TextView
-            android:id="@+id/tvDiemTichLuy"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Điểm tích lũy: 0"
-            android:textSize="14sp" />
+            <LinearLayout
+                android:id="@+id/btnLogout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:padding="16dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?attr/selectableItemBackground">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Đăng xuất"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
 
     </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#e0e0e0"
-        android:layout_marginBottom="24dp" />
-
-    <Button
-        android:id="@+id/btnDangKyKham"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:text="Đăng ký khám bệnh"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:background="@drawable/button_background"
-        android:textColor="@color/white"
-        android:layout_marginBottom="12dp" />
-
-    <Button
-        android:id="@+id/btnBenhAn"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:text="Bệnh án"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:background="@drawable/button_background"
-        android:textColor="@color/white"
-        android:layout_marginBottom="12dp" />
-
-    <Button
-        android:id="@+id/btnHoaDon"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:text="Hóa đơn"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:background="@drawable/button_background"
-        android:textColor="@color/white"
-        android:layout_marginBottom="12dp" />
-
-    <Button
-        android:id="@+id/btnToaThuocHienTai"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:text="Toa thuốc hiện tại"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:background="@drawable/button_background"
-        android:textColor="@color/white"
-        android:layout_marginBottom="12dp" />
-
-    <Button
-        android:id="@+id/btnDiemTichLuy"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:text="Điểm tích lũy &amp; Ưu đãi"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:background="@drawable/button_background"
-        android:textColor="@color/white"
-        android:layout_marginBottom="12dp" />
-
-    <Button
-        android:id="@+id/btnDanhSachBacSi"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:text="Danh sách bác sĩ"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:background="@drawable/button_background"
-        android:textColor="@color/white"
-        android:layout_marginBottom="16dp" />
-
-    <Button
-        android:id="@+id/btnLogout"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:text="Đăng Xuất"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:background="@drawable/button_background_logout"
-        android:textColor="@color/white" />
-
-</LinearLayout>
+</ScrollView>

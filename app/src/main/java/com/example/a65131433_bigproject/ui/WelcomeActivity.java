@@ -2,20 +2,25 @@ package com.example.a65131433_bigproject.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.a65131433_bigproject.R;
+import com.example.a65131433_bigproject.ui.adapter.FunctionCardAdapter;
 import com.example.a65131433_bigproject.utils.SharedPrefManager;
 import com.example.a65131433_bigproject.viewmodel.AuthViewModel;
 
 public class WelcomeActivity extends AppCompatActivity {
     private TextView tvWelcome, tvUsername, tvMaBn, tvHoTen, tvDiemTichLuy, tvMaTk;
-    private Button btnLogout, btnDangKyKham, btnBenhAn, btnHoaDon, btnToaThuocHienTai, btnDiemTichLuy, btnDanhSachBacSi;
+    private LinearLayout btnLogout;
+    private RecyclerView recyclerViewFunctions;
+    private FunctionCardAdapter adapter;
     private AuthViewModel viewModel;
     private SharedPrefManager prefManager;
 
@@ -27,6 +32,7 @@ public class WelcomeActivity extends AppCompatActivity {
         initView();
         initViewModel();
         loadUserInfo();
+        setupRecyclerView();
         setupClickListener();
     }
 
@@ -38,18 +44,71 @@ public class WelcomeActivity extends AppCompatActivity {
         tvDiemTichLuy = findViewById(R.id.tvDiemTichLuy);
         tvMaTk = findViewById(R.id.tvMaTk);
         btnLogout = findViewById(R.id.btnLogout);
-        btnDangKyKham = findViewById(R.id.btnDangKyKham);
-        btnBenhAn = findViewById(R.id.btnBenhAn);
-        btnHoaDon = findViewById(R.id.btnHoaDon);
-        btnToaThuocHienTai = findViewById(R.id.btnToaThuocHienTai);
-        btnDiemTichLuy = findViewById(R.id.btnDiemTichLuy);
-        btnDanhSachBacSi = findViewById(R.id.btnDanhSachBacSi);
+        recyclerViewFunctions = findViewById(R.id.recyclerViewFunctions);
 
         prefManager = SharedPrefManager.getInstance(this);
     }
 
     private void initViewModel() {
         viewModel = new ViewModelProvider(this).get(AuthViewModel.class);
+    }
+
+    private void setupRecyclerView() {
+        // GridLayout với 2 cột
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
+        recyclerViewFunctions.setLayoutManager(layoutManager);
+
+        // Tạo adapter với click listener
+        adapter = new FunctionCardAdapter(item -> {
+            handleFunctionClick(item);
+        });
+
+        recyclerViewFunctions.setAdapter(adapter);
+    }
+
+    private void handleFunctionClick(FunctionCardAdapter.FunctionItem item) {
+        String buttonId = item.getButtonId();
+        Intent intent = null;
+
+        switch (buttonId) {
+            case "btnDangKyKham":
+                intent = new Intent(WelcomeActivity.this, RegisterKhamActivity.class);
+                break;
+            case "btnBenhAn":
+                String maBn = prefManager.getMaBn();
+                if (maBn == null || maBn.isEmpty()) {
+                    Toast.makeText(this, "Tài khoản chưa liên kết với bệnh nhân", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                intent = new Intent(WelcomeActivity.this, BenhAnActivity.class);
+                break;
+            case "btnHoaDon":
+                maBn = prefManager.getMaBn();
+                if (maBn == null || maBn.isEmpty()) {
+                    Toast.makeText(this, "Tài khoản chưa liên kết với bệnh nhân", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                intent = new Intent(WelcomeActivity.this, HoaDonActivity.class);
+                break;
+            case "btnToaThuocHienTai":
+                maBn = prefManager.getMaBn();
+                if (maBn == null || maBn.isEmpty()) {
+                    Toast.makeText(this, "Tài khoản chưa liên kết với bệnh nhân", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                intent = new Intent(WelcomeActivity.this, ToaThuocHienTaiActivity.class);
+                break;
+            case "btnDiemTichLuy":
+                intent = new Intent(WelcomeActivity.this, DiemTichLuyActivity.class);
+                break;
+            case "btnDanhSachBacSi":
+                intent = new Intent(WelcomeActivity.this, DanhSachBacSiActivity.class);
+                break;
+        }
+
+        if (intent != null) {
+            startActivity(intent);
+        }
     }
 
     private void loadUserInfo() {
@@ -68,45 +127,6 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     private void setupClickListener() {
-        btnDangKyKham.setOnClickListener(v -> {
-            startActivity(new Intent(WelcomeActivity.this, RegisterKhamActivity.class));
-        });
-
-        btnBenhAn.setOnClickListener(v -> {
-            String maBn = prefManager.getMaBn();
-            if (maBn == null || maBn.isEmpty()) {
-                Toast.makeText(this, "Tài khoản chưa liên kết với bệnh nhân", Toast.LENGTH_SHORT).show();
-            } else {
-                startActivity(new Intent(WelcomeActivity.this, BenhAnActivity.class));
-            }
-        });
-
-        btnHoaDon.setOnClickListener(v -> {
-            String maBn = prefManager.getMaBn();
-            if (maBn == null || maBn.isEmpty()) {
-                Toast.makeText(this, "Tài khoản chưa liên kết với bệnh nhân", Toast.LENGTH_SHORT).show();
-            } else {
-                startActivity(new Intent(WelcomeActivity.this, HoaDonActivity.class));
-            }
-        });
-
-        btnToaThuocHienTai.setOnClickListener(v -> {
-            String maBn = prefManager.getMaBn();
-            if (maBn == null || maBn.isEmpty()) {
-                Toast.makeText(this, "Tài khoản chưa liên kết với bệnh nhân", Toast.LENGTH_SHORT).show();
-            } else {
-                startActivity(new Intent(WelcomeActivity.this, ToaThuocHienTaiActivity.class));
-            }
-        });
-
-        btnDiemTichLuy.setOnClickListener(v -> {
-            startActivity(new Intent(WelcomeActivity.this, DiemTichLuyActivity.class));
-        });
-
-        btnDanhSachBacSi.setOnClickListener(v -> {
-            startActivity(new Intent(WelcomeActivity.this, DanhSachBacSiActivity.class));
-        });
-
         btnLogout.setOnClickListener(v -> {
             viewModel.logout();
             Toast.makeText(this, "Đã đăng xuất", Toast.LENGTH_SHORT).show();
