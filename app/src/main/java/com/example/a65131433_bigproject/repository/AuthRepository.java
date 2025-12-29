@@ -31,24 +31,57 @@ public class AuthRepository {
             public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     AuthResponse authResponse = response.body();
+                    android.util.Log.d("AuthRepository", "Signup response: success=" + authResponse.isSuccess() + ", message=" + authResponse.getMessage());
+                    
                     if (authResponse.isSuccess()) {
                         // Lưu token & user info
                         AuthResponse.AuthResponseData data = authResponse.getData();
-                        prefManager.saveToken("Bearer " + data.getToken());
-                        prefManager.saveMaTk(data.getMaTk());
-                        prefManager.saveUsername(data.getTenDangNhap());
-                        prefManager.saveMaBn(data.getMaBn());
-                        prefManager.saveHoTen(data.getHoTen());
-                        prefManager.saveDiemTichLuy(data.getDiemTichLuy());
+                        if (data != null && data.getToken() != null) {
+                            prefManager.saveToken("Bearer " + data.getToken());
+                            prefManager.saveMaTk(data.getMaTk());
+                            prefManager.saveUsername(data.getTenDangNhap());
+                            prefManager.saveMaBn(data.getMaBn());
+                            prefManager.saveHoTen(data.getHoTen());
+                            prefManager.saveDiemTichLuy(data.getDiemTichLuy());
+                            android.util.Log.d("AuthRepository", "Đã lưu token và thông tin user");
+                        } else {
+                            android.util.Log.e("AuthRepository", "Data hoặc Token null!");
+                        }
                     }
                     responseLiveData.setValue(authResponse);
                 } else {
-                    responseLiveData.setValue(new AuthResponse());
+                    // Parse error response
+                    try {
+                        if (response.errorBody() != null) {
+                            String errorBody = response.errorBody().string();
+                            android.util.Log.e("AuthRepository", "Signup error: " + response.code() + " - " + errorBody);
+                            
+                            // Try to parse as AuthResponse
+                            com.google.gson.Gson gson = new com.google.gson.Gson();
+                            AuthResponse errorResponse = gson.fromJson(errorBody, AuthResponse.class);
+                            if (errorResponse != null) {
+                                responseLiveData.setValue(errorResponse);
+                            } else {
+                                AuthResponse emptyResponse = new AuthResponse();
+                                responseLiveData.setValue(emptyResponse);
+                            }
+                        } else {
+                            android.util.Log.e("AuthRepository", "Signup error: " + response.code() + " - No error body");
+                            AuthResponse emptyResponse = new AuthResponse();
+                            responseLiveData.setValue(emptyResponse);
+                        }
+                    } catch (Exception e) {
+                        android.util.Log.e("AuthRepository", "Error parsing error response: " + e.getMessage());
+                        AuthResponse emptyResponse = new AuthResponse();
+                        responseLiveData.setValue(emptyResponse);
+                    }
                 }
             }
 
             @Override
             public void onFailure(Call<AuthResponse> call, Throwable t) {
+                android.util.Log.e("AuthRepository", "Signup network error: " + t.getMessage());
+                t.printStackTrace();
                 responseLiveData.setValue(null);
             }
         });

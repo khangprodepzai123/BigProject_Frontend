@@ -21,16 +21,24 @@ public class AuthViewModel extends AndroidViewModel {
     // ===== SIGNUP =====
     public void signup(String username, String password) {
         isLoading.setValue(true);
+        errorMessage.setValue(null); // Clear previous error
         repository.signup(username, password).observeForever(response -> {
             isLoading.setValue(false);
             if (response != null) {
+                android.util.Log.d("AuthViewModel", "Signup response received: success=" + response.isSuccess());
                 if (response.isSuccess()) {
                     authResponse.setValue(response);
                 } else {
-                    errorMessage.setValue(response.getMessage());
+                    String errorMsg = response.getMessage();
+                    if (errorMsg == null || errorMsg.isEmpty()) {
+                        errorMsg = "Đăng ký thất bại. Vui lòng thử lại.";
+                    }
+                    errorMessage.setValue(errorMsg);
+                    android.util.Log.e("AuthViewModel", "Signup failed: " + errorMsg);
                 }
             } else {
-                errorMessage.setValue("Lỗi kết nối mạng");
+                errorMessage.setValue("Lỗi kết nối mạng. Vui lòng kiểm tra kết nối và thử lại.");
+                android.util.Log.e("AuthViewModel", "Signup response is null");
             }
         });
     }

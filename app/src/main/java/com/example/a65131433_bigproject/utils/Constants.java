@@ -2,7 +2,12 @@ package com.example.a65131433_bigproject.utils;
 
 public class Constants {
     // Base URL của Web API
-    public static final String BASE_URL = "http://10.0.2.2:5237/";  // ← Thay IP của bạn
+    // IP của máy tính (thay đổi nếu IP thay đổi)
+    // Lưu ý: 
+    // - Nếu dùng Emulator: dùng "http://10.0.2.2:5237/"
+    // - Nếu dùng điện thoại thật: dùng IP thực của máy tính (ví dụ: "http://10.160.2.122:5237/")
+    // - Đảm bảo điện thoại và máy tính cùng mạng WiFi
+    public static final String BASE_URL = "http://10.160.2.122:5237/";  // ← IP máy tính của bạn
 
     // Endpoints
     public static final String API_SIGNUP = "api/auth/signup";

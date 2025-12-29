@@ -1,8 +1,13 @@
 // ===== models/SignupRequest.java =====
 package com.example.a65131433_bigproject.models;
 
+import com.google.gson.annotations.SerializedName;
+
 public class SignupRequest {
+    @SerializedName("tenDangNhap")
     private String tenDangNhap;
+    
+    @SerializedName("matKhau")
     private String matKhau;
 
     public SignupRequest(String tenDangNhap, String matKhau) {
